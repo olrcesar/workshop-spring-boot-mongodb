@@ -17,6 +17,7 @@ import com.educandoweb.workshopmongo.domain.User;
 import com.educandoweb.workshopmongo.dto.UserDTO;
 import com.educandoweb.workshopmongo.services.UserService;
 
+
 @RestController
 @RequestMapping(value = "/users")
 public class UserResource {
@@ -49,6 +50,14 @@ public class UserResource {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> deleteById(@PathVariable String id) {
 		userService.deleteById(id);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@PathVariable String id, @RequestBody UserDTO objDto){
+		User obj = userService.fromDTO(objDto);
+		obj.setId(id);
+		obj = userService.update(obj);
 		return ResponseEntity.noContent().build();
 	}
 	
